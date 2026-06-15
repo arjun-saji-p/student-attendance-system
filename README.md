@@ -1,14 +1,24 @@
-# student-attendance-system
+# Student Attendance System
 
-A simple Python project to manage student attendance.
+A Python-based attendance management system.
 
 ## Features
-- Add students
-- View students
-- Mark attendance
-- View attendance records
-- File handling using Python
+- Add Student
+- View Students
+- Search Student
+- Delete Student
+- Mark Attendance
+- Attendance Validation
+- View Attendance Records
+- Attendance Percentage Calculator
 
 ## Technologies Used
 - Python
 - File Handling
+
+## Concepts Used
+- Functions
+- Loops
+- Conditional Statements
+- Dictionaries
+- File Operations
