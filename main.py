@@ -25,7 +25,29 @@ def view_students():
 
     except FileNotFoundError:
         print("No students found.")
+        
+def search_student():
+    name = input("Enter student name to search: ")
 
+    try:
+        with open("students.txt", "r") as file:
+            students = file.readlines()
+
+        found = False
+
+        for student in students:
+            if student.strip().lower() == name.lower():
+                found = True
+                break
+
+        if found:
+            print("Student Found!")
+        else:
+            print("Student Not Found!")
+
+    except FileNotFoundError:
+        print("No student records found.")
+        
 def mark_attendance():
     name = input("Enter student name: ")
     status = input("Present (P) / Absent (A): ")
@@ -60,12 +82,15 @@ while True:
         view_students()
 
     elif choice == "3":
-        mark_attendance()
+        search_student() 
 
     elif choice == "4":
-        view_attendance()
+        mark_attendance()
 
     elif choice == "5":
+        view_attendance()
+
+    elif choice == "6":
         print("Exiting...")
         break
 
