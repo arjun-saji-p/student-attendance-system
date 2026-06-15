@@ -11,95 +11,75 @@ def menu():
 
 def add_student():
     name = input("Enter student name: ")
-
     with open("students.txt", "a") as file:
         file.write(name + "\n")
-
     print("Student added successfully!")
 
 def view_students():
     try:
         with open("students.txt", "r") as file:
             students = file.readlines()
-
         print("\nStudent List:")
         for student in students:
             print(student.strip())
-
     except FileNotFoundError:
         print("No students found.")
         
 def search_student():
     name = input("Enter student name to search: ")
-
     try:
         with open("students.txt", "r") as file:
             students = file.readlines()
-
         found = False
-
         for student in students:
             if student.strip().lower() == name.lower():
                 found = True
                 break
-
         if found:
             print("Student Found!")
         else:
             print("Student Not Found!")
-
     except FileNotFoundError:
         print("No student records found.")
 
 def delete_student():
     name = input("Enter student name to delete: ")
-
     try:
         with open("students.txt", "r") as file:
             students = file.readlines()
-
         found = False
-
         with open("students.txt", "w") as file:
             for student in students:
                 if student.strip().lower() != name.lower():
                     file.write(student)
                 else:
                     found = True
-
         if found:
             print("Student deleted successfully!")
         else:
             print("Student not found!")
-
     except FileNotFoundError:
         print("No student records found.")
         
 def mark_attendance():
     name = input("Enter student name: ")
-
     try:
         with open("students.txt", "r") as file:
             students = file.readlines()
-
         found = False
-
         for student in students:
             if student.strip().lower() == name.lower():
                 found = True
                 break
-
         if not found:
             print("Student not found!")
             return
-
         status = input("Present (P) / Absent (A): ").upper()
 
         with open("attendance.txt", "a") as file:
             file.write(f"{name},{status}\n")
 
         print("Attendance marked successfully!")
-
     except FileNotFoundError:
         print("No students found.")
 
@@ -107,9 +87,7 @@ def view_attendance():
     try:
         with open("attendance.txt", "r") as file:
             records = file.readlines()
-
         print("\nAttendance Records:")
-
         for record in records:
             print(record.strip())
 
@@ -117,44 +95,34 @@ def view_attendance():
         print("No attendance records found.")
 
 def attendance_percentage():
-
     try:
         with open("attendance.txt", "r") as file:
             records = file.readlines()
-
         attendance = {}
-
         for record in records:
-
             name, status = record.strip().split(",")
 
             if name not in attendance:
                 attendance[name] = {"present": 0, "total": 0}
 
             attendance[name]["total"] += 1
-
             if status.upper() == "P":
                 attendance[name]["present"] += 1
 
         print("\nAttendance Percentage")
-
         for name in attendance:
-
             percentage = (
                 attendance[name]["present"]
                 / attendance[name]["total"]
             ) * 100
 
             print(f"{name} : {percentage:.2f}%")
-
     except FileNotFoundError:
         print("No attendance records found.")
 
 while True:
     menu()
-
     choice = input("Enter your choice: ")
-
     if choice == "1":
         add_student()
 
