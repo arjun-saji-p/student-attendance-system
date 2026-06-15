@@ -2,9 +2,11 @@ def menu():
     print("\n===== STUDENT ATTENDANCE SYSTEM =====")
     print("1. Add Student")
     print("2. View Students")
-    print("3. Mark Attendance")
-    print("4. View Attendance")
-    print("5. Exit")
+    print("3.Search Student") 
+    print("4.Delete Student") 
+    print("5. Mark Attendance")
+    print("6. View Attendance")
+    print("7. Exit")
 
 def add_student():
     name = input("Enter student name: ")
@@ -47,6 +49,30 @@ def search_student():
 
     except FileNotFoundError:
         print("No student records found.")
+
+def delete_student():
+    name = input("Enter student name to delete: ")
+
+    try:
+        with open("students.txt", "r") as file:
+            students = file.readlines()
+
+        found = False
+
+        with open("students.txt", "w") as file:
+            for student in students:
+                if student.strip().lower() != name.lower():
+                    file.write(student)
+                else:
+                    found = True
+
+        if found:
+            print("Student deleted successfully!")
+        else:
+            print("Student not found!")
+
+    except FileNotFoundError:
+        print("No student records found.")
         
 def mark_attendance():
     name = input("Enter student name: ")
@@ -83,14 +109,17 @@ while True:
 
     elif choice == "3":
         search_student() 
-
+    
     elif choice == "4":
+        delete_student() 
+        
+    elif choice == "5":
         mark_attendance()
 
-    elif choice == "5":
+    elif choice == "6":
         view_attendance()
 
-    elif choice == "6":
+    elif choice == "7":
         print("Exiting...")
         break
 
