@@ -2,11 +2,12 @@ def menu():
     print("\n===== STUDENT ATTENDANCE SYSTEM =====")
     print("1. Add Student")
     print("2. View Students")
-    print("3.Search Student") 
-    print("4.Delete Student") 
+    print("3. Search Student") 
+    print("4. Delete Student") 
     print("5. Mark Attendance")
     print("6. View Attendance")
-    print("7. Exit")
+    print("7. Attendance Percentage") 
+    print("8. Exit")
 
 def add_student():
     name = input("Enter student name: ")
@@ -76,12 +77,31 @@ def delete_student():
         
 def mark_attendance():
     name = input("Enter student name: ")
-    status = input("Present (P) / Absent (A): ")
 
-    with open("attendance.txt", "a") as file:
-        file.write(f"{name},{status}\n")
+    try:
+        with open("students.txt", "r") as file:
+            students = file.readlines()
 
-    print("Attendance marked successfully!")
+        found = False
+
+        for student in students:
+            if student.strip().lower() == name.lower():
+                found = True
+                break
+
+        if not found:
+            print("Student not found!")
+            return
+
+        status = input("Present (P) / Absent (A): ").upper()
+
+        with open("attendance.txt", "a") as file:
+            file.write(f"{name},{status}\n")
+
+        print("Attendance marked successfully!")
+
+    except FileNotFoundError:
+        print("No students found.")
 
 def view_attendance():
     try:
@@ -92,6 +112,40 @@ def view_attendance():
 
         for record in records:
             print(record.strip())
+
+    except FileNotFoundError:
+        print("No attendance records found.")
+
+def attendance_percentage():
+
+    try:
+        with open("attendance.txt", "r") as file:
+            records = file.readlines()
+
+        attendance = {}
+
+        for record in records:
+
+            name, status = record.strip().split(",")
+
+            if name not in attendance:
+                attendance[name] = {"present": 0, "total": 0}
+
+            attendance[name]["total"] += 1
+
+            if status.upper() == "P":
+                attendance[name]["present"] += 1
+
+        print("\nAttendance Percentage")
+
+        for name in attendance:
+
+            percentage = (
+                attendance[name]["present"]
+                / attendance[name]["total"]
+            ) * 100
+
+            print(f"{name} : {percentage:.2f}%")
 
     except FileNotFoundError:
         print("No attendance records found.")
@@ -120,6 +174,9 @@ while True:
         view_attendance()
 
     elif choice == "7":
+        attendance_percentage()
+    
+    elif choice == "8":
         print("Exiting...")
         break
 
